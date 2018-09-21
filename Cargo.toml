@@ -2,6 +2,3 @@
 name = "rust_playground"
 version = "0.1.0"
 authors = ["Okina Matara <okinan@chiru.no>"]
-
-[dependencies]
-rand = "0.4.0"
