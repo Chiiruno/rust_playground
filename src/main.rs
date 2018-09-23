@@ -1,46 +1,37 @@
-#[derive(Debug)]
-struct Rectangle {
-    width: u32,
-    height: u32,
+use std::fmt::Display;
+
+struct ImportantExcerpt<'a> {
+    part: &'a str,
 }
 
-impl Rectangle {
-    fn square(size: u32) -> Rectangle {
-        Rectangle {
-            width: size,
-            height: size,
-        }
+impl<'a> ImportantExcerpt<'a> {
+    fn level(&self) -> i32 {
+        3
     }
 
-    fn area(&self) -> u32 {
-        self.width * self.height
-    }
-
-    fn can_hold(&self, other: &Rectangle) -> bool {
-        self.width > other.width && self.height > other.height
+    fn announce_and_return_part(&self, announcement: &str) -> &str {
+        println!("Attention please: {}", announcement);
+        self.part
     }
 }
 
 fn main() {
-    let rect1 = Rectangle {
-        width: 30,
-        height: 50,
-    };
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+    let i = ImportantExcerpt { part: first_sentence };
 
-    let rect2 = Rectangle {
-        width: 10,
-        height: 40,
-    };
+    println!("{}: {}", i.announce_and_return_part("AAAAAAAAAAAAAA"), i.level());
+    println!("{}?", longest_with_an_announcement("what", "are", "you doing?"));
+}
 
-    let rect3 = Rectangle {
-        width: 60,
-        height: 45,
-    };
+fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
+    where T: Display
+{
+    println!("Announcement! {} {} {}", x, y, ann);
 
-    println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
-    println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
-
-    let sq = Rectangle::square(3);
-
-    println!("{:?}: {}", sq, sq.area());
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
 }
